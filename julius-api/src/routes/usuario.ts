@@ -32,3 +32,30 @@ routerUsuario.get('/lancamentos/:idUsuario', async (req, res) => {
     const lancamentos = await usuarioCtrl.recuperarLancamentosDoUsuario(idUsuario);
     res.json(lancamentos);
 });
+
+/**Retornar positivo */ 
+
+routerUsuario.get("/lancamentos/entradas/:id", async (req, res) => {
+    const id  = parseInt(req.params.id);
+    const lancamentos =  await usuarioCtrl.retornarLancamentoPositivo(id);
+
+    if(lancamentos){
+        res.json(lancamentos);
+    }else{
+        res.status(404).json({mensagem: "Lançamento não encontrado"})
+    }
+});
+
+
+/**Retornar negativo */
+
+routerUsuario.get("/lancamentos/gastos/:id", async (req, res) => {
+    const id  = parseInt(req.params.id);
+    const lancamentos =  await usuarioCtrl.retornarLancamentoNegativo(id);
+
+    if(lancamentos){
+        res.json(lancamentos);
+    }else{
+        res.status(404).json({mensagem: "Lançamento negativo não encontrado"})
+    }
+});

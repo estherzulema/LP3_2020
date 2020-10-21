@@ -1,4 +1,5 @@
-import { getManager } from "typeorm";
+import { getManager, LessThan, MoreThanOrEqual } from "typeorm";
+import { Lancamento } from "../entity/Lancamento";
 import { Usuario } from "../entity/Usuario";
 
 export class UsuarioController {
@@ -24,4 +25,30 @@ export class UsuarioController {
         });
         return usuario.lancamentos;
     }
+  /**Retornar positivo */
+  
+  async retornarLancamentoPositivo(idUsuario: number) {
+    const lancamentoPositivo = await getManager().find(Lancamento, {
+        where: {
+            usuario: idUsuario,
+            valor: MoreThanOrEqual(0),
+        }
+    });
+    return lancamentoPositivo
+}
+
+/**Retornar negativo */
+
+async retornarLancamentoNegativo(id: number) {
+
+    const lancamentoNegativo = await getManager().find( Lancamento, {
+        where:{
+            usuario: id,
+            valor: LessThan(0),
+        }
+        
+    });
+
+    return lancamentoNegativo
+  }
 }
